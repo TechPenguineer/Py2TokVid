@@ -1,7 +1,12 @@
 import os
 import sys
 import yaml
+import logging
 from moviepy.editor import *
+
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def ReadConfig(config_file: str = "./util/config.yaml"):
     configDoc = str("")
@@ -18,7 +23,11 @@ OUTPUT_FILE = CONFIG['VIDEO_SETTINGS']['OUTPUT_FILE']
 OUTPUT_TYPE = CONFIG['VIDEO_SETTINGS']['OUTPUT_TYPE']
 
 def color_clip(size, duration, fps=25, color=(0,0,0), output='color.mp4'):
-    ColorClip(size, color, duration=duration).write_videofile(output, fps=fps)
+    logger.info('Creating color clip...')
+    clip = ColorClip(size, color, duration=duration)
+    logger.info('Writing video file...')
+    clip.write_videofile(output, fps=fps)
+    logger.info(f'Video file saved to {output}')
 
 if not os.path.exists(OUTPUT_FOLDER):
     os.mkdir(OUTPUT_FOLDER)
