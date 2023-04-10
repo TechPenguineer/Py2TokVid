@@ -3,6 +3,7 @@ import sys
 import yaml
 import logging
 from moviepy.editor import *
+import platform
 
 
 logging.basicConfig(level=logging.INFO)
@@ -11,7 +12,10 @@ logger = logging.getLogger(__name__)
 def ReadConfig(config_file: str = "./util/config.yaml"):
     configDoc = str("")
     with open(config_file, "r") as configFile:
+        logger.info('Opening config...')
         configDoc = str(configFile.read())
+        logger.info('Log read...')
+    logger.info('Returning YAML safe load...')
     return yaml.safe_load(configDoc)
 CONFIG = ReadConfig()
 
@@ -32,4 +36,8 @@ def color_clip(size, duration, fps=25, color=(0,0,0), output='color.mp4'):
 if not os.path.exists(OUTPUT_FOLDER):
     os.mkdir(OUTPUT_FOLDER)
 
+os.system('cls' if os.name == 'nt' else 'clear')
 color_clip(VIDEO_SIZE, DURATION, FPS, (0,0,0), f"{OUTPUT_FOLDER}/{OUTPUT_FILE}.{OUTPUT_TYPE}")
+os.system('cls' if os.name == 'nt' else 'clear')
+
+print(f"Py2TokVid - {platform.system()} Version")
